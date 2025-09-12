@@ -9,32 +9,43 @@ function Home() {
 
   const dispatch = useDispatch()
 
-  const {loading,error,allProducts} = useSelector((state)=>state.productReducer)
-  console.log(loading,error,allProducts);
-  
+  const { loading, error, allProducts } = useSelector((state) => state.productReducer)
+  console.log(loading, error, allProducts);
 
-  useEffect(()=>{
+
+  useEffect(() => {
     dispatch(fetchAllProducts())
-  },[])
+  }, [])
 
   return (
     <>
-    <Header/>
-    <div style={{paddingTop:'100px'}} className='mx-5'>
-      
-       <div className="grid grid-cols-4 gap-4">
-        <div className='rounded p-2 shadow'>
-          {/* image */}
-          <img height={'200px'} src="https://crepdogcrew.com/cdn/shop/files/Travis_scott_low_og_olive_white_bg_2x_49cc2a7e-f9e0-4240-ba2d-58794a26fbdf.jpg?v=1755096850&width=3000" alt="product" />
-          <div className='text-center'>
-            {/* title */}
-            <h3 className='text-xl'>Jordan 1 Retro Low OG SP Travis Scott Olive (W) - WHITE / UK 6.5</h3>
-            {/* link */}
-            <Link to={`/id/view`} className='bg-slate-800 p-1 rounded text-white inline-block mt-3' >View</Link>
-          </div>
+      <Header />
+      <div className='pt-17 pb-5 mx-5 '>
+        <div className="grid grid-cols-4 gap-4">
+
+          {
+            loading ?
+              <p>loading</p>
+              :
+              allProducts?.length > 0 ?
+                allProducts?.map((product) => (
+                  <div key={product.id} className="rounded p-2 shadow">
+                    {/* image */}
+                    <img height={'200px'} src={product.thumbnail} />
+                    <div className='text-center'>
+                      {/* title */}
+                      <h3 className='font-bold text-xl'>{product.title}</h3>
+                      {/* link */}
+                      <Link to={`/${product.id}/view`} className='bg-violet-800 text-white p-1 rounded inline-block mt-3' > View More... </Link>
+                    </div>
+                  </div>
+                ))
+                :
+                <p>Products Are Not Avilable</p>
+          }
         </div>
-       </div>
-    </div>
+
+      </div>
     </>
   )
 }

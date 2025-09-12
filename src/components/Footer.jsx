@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
-    <div className="w-full bg-slate-800 text-white absolute bottom-0 py-10 px-8 ">
+    <div className="w-full bg-slate-800 text-white absolute  py-10 px-8 ">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo and About */}
         <div>
