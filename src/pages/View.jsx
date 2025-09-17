@@ -3,10 +3,12 @@ import Header from '../components/Header';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToWishlist } from '../redux/slices/wishlistSlice';
+import { addToCart } from '../redux/slices/cartSlice';
 
 function View() {
 
   const userWishlist = useSelector(state=>state.wishlistReducer)
+  const userCart = useSelector(state=>state.cartReducer)
   const dispatch = useDispatch()
 
   const { id } = useParams()
@@ -29,6 +31,14 @@ function View() {
     }
   }
 
+  const handleCart = ()=>{
+    dispatch(addToCart(product))
+    const existingProduct = userCart?.find(item=>item.id==product.id)
+    if(existingProduct){
+      alert("Product updated successfully")
+    }
+  }
+
   return (
     <>
       <Header />
@@ -45,7 +55,7 @@ function View() {
             <button onClick={handleAddToWishlist} className="py-1 px-4 bg-blue-500 text-white font-medium rounded">
               ADD TO Wishlist
             </button>
-            <button className="py-1 px-4 bg-green-500 text-white font-medium rounded">
+            <button onClick={handleCart} className="py-1 px-4 bg-green-500 text-white font-medium rounded">
               ADD TO Cart
             </button>
           </div>

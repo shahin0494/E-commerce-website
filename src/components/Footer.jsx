@@ -60,7 +60,7 @@ function Footer() {
 
       {/* Bottom copyright */}
       <div className="text-center text-sm mt-10 border-t border-slate-400 pt-4">
-        Copyright © May 2025 Batch, Daily Cart. Built with React Redux.
+        Copyright © May 2025 Batch, Cartico. Built with React Redux.
       </div>
     </div>
   )

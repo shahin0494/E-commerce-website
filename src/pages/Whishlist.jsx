@@ -1,27 +1,54 @@
 import React from 'react'
 import Header from '../components/Header'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeWishlistItem } from '../redux/slices/wishlistSlice'
+import { addToCart } from '../redux/slices/cartSlice'
 
 function Whishlist() {
+
+  const userCart = useSelector(state => state.cartReducer)
+  const ourWishlist = useSelector(state => state.wishlistReducer)
+  const dispatch = useDispatch()
+
+
+  const handleCart = (product) => {
+    dispatch(removeWishlistItem(product?.id))
+    dispatch(addToCart(product))
+    const existingProduct = userCart?.find(item => item.id == product.id)
+    if (existingProduct) {
+      alert("Product updated successfully")
+    }
+  }
+
   return (
-      <>
-       <Header/>
-    <div style={{paddingTop:'100px'}} className='mx-5 mb-25'>
-       <div className="grid grid-cols-4 gap-4">
-        <div className='rounded p-2 shadow'>
-          {/* image */}
-          <img height={'200px'} src="https://crepdogcrew.com/cdn/shop/files/Travis_scott_low_og_olive_white_bg_2x_49cc2a7e-f9e0-4240-ba2d-58794a26fbdf.jpg?v=1755096850&width=3000" alt="product" />
-          <div className='text-center'>
-            {/* title */}
-            <h3 className='text-xl'>Jordan 1 Retro Low OG SP Travis Scott Olive (W) - WHITE / UK 6.5</h3>
-            {/* link */} 
-            <div className='justify-between mt-3 px-5 flex'>
-              <button> <i class="fa-solid fa-heart-circle-xmark text-red-500"></i> </button>
-              <button><i class="fa-solid fa-cart-plus text-green-500"></i> </button>
-            </div>
-          </div>
+    <>
+      <Header />
+      <div style={{ paddingTop: '100px' }} className='mx-5 mb-25'>
+        <div className="grid grid-cols-4 gap-4">
+          {
+            ourWishlist?.length > 0 ?
+              ourWishlist.map(product => (
+                <div key={product?.id} className='rounded p-2 shadow'>
+                  {/* image */}
+                  <img height={'200px'} src={product?.thumbnail} alt="product" />
+                  <div className='text-center'>
+                    {/* title */}
+                    <h3 className='text-xl'>{product?.title}</h3>
+                    {/* link */}
+                    <div className='justify-between mt-3 px-5 flex'>
+                      {/* delete button */}
+                      <button onClick={() => dispatch(removeWishlistItem(product?.id))}> <i class="fa-solid fa-heart-circle-xmark text-red-500"></i> </button>
+                      {/* add to cart button */}
+                      <button onClick={() => dispatch(handleCart(product))}><i class="fa-solid fa-cart-plus text-green-500"></i> </button>
+                    </div>
+                  </div>
+                </div>)) :
+              <p className='text-center my-10 font-bold'>"Wishlist is empty"</p>
+          }
         </div>
-       </div>
-    </div></>
+      </div>
+
+    </>
   )
 }
 
